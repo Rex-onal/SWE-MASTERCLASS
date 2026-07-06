@@ -114,7 +114,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex-1 p-4 md:p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
+    <div className="flex-1 h-full overflow-y-auto p-4 md:p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
       {/* Hero Card */}
       <section className="bg-white rounded-[20px] shadow-brand p-5 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
         {/* Glow decorations */}
