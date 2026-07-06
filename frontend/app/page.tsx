@@ -12,6 +12,7 @@ import {
   ChevronUp,
   Database,
   Code,
+  Code2,
   Cpu,
   GraduationCap,
   Sparkles
@@ -115,17 +116,17 @@ export default function Dashboard() {
   return (
     <div className="flex-1 p-4 md:p-8 flex flex-col gap-8 max-w-7xl mx-auto w-full">
       {/* Hero Card */}
-      <section className="bg-white rounded-[20px] shadow-brand p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+      <section className="bg-white rounded-[20px] shadow-brand p-5 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
         {/* Glow decorations */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-radial from-[#B2EBD4]/30 to-transparent pointer-events-none rounded-full" />
         
         {/* Left Side Info */}
-        <div className="flex-1 flex flex-col gap-4 z-10 w-full">
+        <div className="w-full md:w-[60%] flex flex-col gap-4 z-10">
           <div>
-            <span className="px-2.5 py-1 bg-[#2EC97E]/10 border border-[#2EC97E]/20 text-[#2EC97E] text-[10px] font-sans font-bold uppercase tracking-wider rounded-full">
+            <span className="px-[10px] py-[4px] bg-[#2EC97E]/10 border border-[#2EC97E]/20 text-[#2EC97E] text-[10px] font-sans font-bold uppercase tracking-wider rounded-full">
               Phase {currentPhaseIndex}: {currentPhaseName}
             </span>
-            <h1 className="text-3xl md:text-4xl font-display font-bold text-[#1A2E44] mt-2">
+            <h1 className="text-[26px] leading-[1.2] md:text-4xl md:leading-normal font-display font-bold text-[#1A2E44] mt-2">
               Your 18-Week AI Engineering Roadmap
             </h1>
             <p className="text-[#6B7C8D] font-sans text-sm mt-1">
@@ -135,7 +136,7 @@ export default function Dashboard() {
 
           {/* Phase Segment Progress */}
           <div className="flex flex-col gap-2 mt-2 w-full">
-            <div className="flex justify-between text-xs text-[#6B7C8D] font-semibold uppercase tracking-wider">
+            <div className="flex justify-between items-center text-xs text-[#6B7C8D] font-semibold uppercase tracking-wider">
               <span>Overall Roadmap Progress</span>
               <span>{Math.round((progress.passedQuizzes.length / totalModules) * 100)}%</span>
             </div>
@@ -157,43 +158,55 @@ export default function Dashboard() {
               })}
             </div>
             <div className="flex justify-between text-[10px] text-[#6B7C8D] font-sans font-semibold mt-1">
-              <span>P1: Core</span>
-              <span>P2: Backend</span>
-              <span>P3: DSA</span>
-              <span>P4: System</span>
-              <span>P5: AI</span>
-              <span>P6: Scale</span>
+              {["P1: Core", "P2: Backend", "P3: DSA", "P4: System", "P5: AI", "P6: Scale"].map((lbl, idx) => (
+                <span key={idx}>
+                  <span className="hidden md:inline">{lbl}</span>
+                  <span className="inline md:hidden">P{idx + 1}</span>
+                </span>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Right Side: Animated Orbit Illustration */}
-        <div className="w-48 h-48 flex items-center justify-center relative select-none flex-shrink-0">
-          <div className="w-16 h-16 rounded-full bg-[#1A2E44]/5 flex items-center justify-center shadow-inner z-10">
-            <Sparkles size={24} className="text-[#F5C842] animate-pulse" />
+        <div className="relative w-[180px] h-[180px] md:w-[220px] md:h-[220px] flex-shrink-0 mx-auto md:mx-0 md:absolute md:right-8 md:top-1/2 md:-translate-y-1/2 select-none">
+          {/* Layer 2 — Center icon (does not rotate) */}
+          <div className="absolute bg-white rounded-full flex items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.08)] w-[48px] h-[48px] top-[66px] left-[66px] md:top-[86px] md:left-[86px] z-20">
+            <Sparkles size={28} className="text-[#F5C842]" />
           </div>
-          {/* Orbital path outline */}
-          <div className="absolute w-36 h-36 border border-[#E8F0EC] rounded-full pointer-events-none" />
 
-          {/* Floating Orbit Items */}
-          <div className="absolute top-1/2 left-1/2 -mt-5 -ml-5 orbit-item-1 z-20">
-            <div className="bg-white p-2.5 rounded-full shadow-md text-[#3B82F6] border border-[#E8F0EC]" title="Database">
-              <Database size={18} strokeWidth={2.5} />
+          {/* Rotating Orbit Container (Layer 1 + Layer 3) */}
+          <div className="absolute inset-0 orbit-ring-container">
+            {/* Layer 1 — Orbit ring */}
+            <div className="absolute rounded-full border-[1.5px] border-[#A8E6DF]/60 shadow-[0_0_24px_rgba(46,201,126,0.15)] w-[130px] h-[130px] top-[25px] left-[25px] md:w-[160px] md:h-[160px] md:top-[30px] md:left-[30px] orbit-ring" />
+
+            {/* Layer 3 — Four orbit icons */}
+            {/* Top (12 o'clock): Lucide <Code2 /> */}
+            <div className="absolute bg-white rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.07)] w-[40px] h-[40px] top-[25px] left-[70px] md:top-[30px] md:left-[90px] z-10">
+              <div className="orbit-icon-inner flex items-center justify-center">
+                <Code2 size={20} className="text-[#1A2E44]" />
+              </div>
             </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -mt-5 -ml-5 orbit-item-2 z-20">
-            <div className="bg-white p-2.5 rounded-full shadow-md text-[#F5C842] border border-[#E8F0EC]" title="Code">
-              <Code size={18} strokeWidth={2.5} />
+
+            {/* Right (3 o'clock): Lucide <Cpu /> */}
+            <div className="absolute bg-white rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.07)] w-[40px] h-[40px] top-[70px] left-[115px] md:top-[90px] md:left-[150px] z-10">
+              <div className="orbit-icon-inner flex items-center justify-center">
+                <Cpu size={20} className="text-[#2EC97E]" />
+              </div>
             </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -mt-5 -ml-5 orbit-item-3 z-20">
-            <div className="bg-white p-2.5 rounded-full shadow-md text-[#2EC97E] border border-[#E8F0EC]" title="AI">
-              <Cpu size={18} strokeWidth={2.5} />
+
+            {/* Bottom (6 o'clock): Lucide <GraduationCap /> */}
+            <div className="absolute bg-white rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.07)] w-[40px] h-[40px] top-[115px] left-[70px] md:top-[150px] md:left-[90px] z-10">
+              <div className="orbit-icon-inner flex items-center justify-center">
+                <GraduationCap size={20} className="text-[#8B5CF6]" />
+              </div>
             </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -mt-5 -ml-5 orbit-item-4 z-20">
-            <div className="bg-white p-2.5 rounded-full shadow-md text-[#8B5CF6] border border-[#E8F0EC]" title="Education">
-              <GraduationCap size={18} strokeWidth={2.5} />
+
+            {/* Left (9 o'clock): Lucide <Database /> */}
+            <div className="absolute bg-white rounded-full flex items-center justify-center shadow-[0_2px_8px_rgba(0,0,0,0.07)] w-[40px] h-[40px] top-[70px] left-[25px] md:top-[90px] md:left-[30px] z-10">
+              <div className="orbit-icon-inner flex items-center justify-center">
+                <Database size={20} className="text-[#3B82F6]" />
+              </div>
             </div>
           </div>
         </div>

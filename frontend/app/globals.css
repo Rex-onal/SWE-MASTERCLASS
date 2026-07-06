@@ -40,28 +40,32 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(26, 46, 68, 0.3);
 }
 
-/* 3D Orbit Keyframe Animations */
-@keyframes orbit-1 {
-  0% { transform: rotate(0deg) translate(60px) rotate(0deg); }
-  100% { transform: rotate(360deg) translate(60px) rotate(-360deg); }
-}
-@keyframes orbit-2 {
-  0% { transform: rotate(90deg) translate(60px) rotate(-90deg); }
-  100% { transform: rotate(450deg) translate(60px) rotate(-450deg); }
-}
-@keyframes orbit-3 {
-  0% { transform: rotate(180deg) translate(60px) rotate(-180deg); }
-  100% { transform: rotate(540deg) translate(60px) rotate(-540deg); }
-}
-@keyframes orbit-4 {
-  0% { transform: rotate(270deg) translate(60px) rotate(-270deg); }
-  100% { transform: rotate(630deg) translate(60px) rotate(-630deg); }
+/* Orbit Keyframe Animations */
+@keyframes orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.orbit-item-1 { animation: orbit-1 12s linear infinite; }
-.orbit-item-2 { animation: orbit-2 12s linear infinite; }
-.orbit-item-3 { animation: orbit-3 12s linear infinite; }
-.orbit-item-4 { animation: orbit-4 12s linear infinite; }
+@keyframes counter-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.orbit-ring-container {
+  animation: orbit 12s linear infinite;
+}
+
+.orbit-icon-inner {
+  animation: counter-orbit 12s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-ring,
+  .orbit-ring-container,
+  .orbit-icon-inner {
+    animation: none;
+  }
+}
 
 /* Shake animation for locked elements */
 @keyframes shake {

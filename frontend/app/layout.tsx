@@ -34,7 +34,7 @@ export default function RootLayout({
         {/* Main Window Wrapper */}
         <div className="min-h-screen flex flex-col pl-0 md:pl-[220px]">
           <TopNav />
-          <main className="flex-1 pt-16 flex flex-col overflow-hidden">
+          <main className="flex-1 pt-[84px] md:pt-16 flex flex-col overflow-hidden">
             {children}
           </main>
         </div>
