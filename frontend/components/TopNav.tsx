@@ -1,13 +1,27 @@
-"use strict";
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Bell, Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Bell,
+  Menu,
+  X,
+  LayoutDashboard,
+  FolderOpen,
+  BookMarked,
+  TrendingUp,
+  User
+} from "lucide-react";
+import Logo from "./Logo";
 import { getProgress } from "@/lib/progress";
 import { PHASES } from "@/lib/curriculum";
 
 export default function TopNav() {
   const [currentWeek, setCurrentWeek] = useState(1);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     // Initial fetch
@@ -65,13 +79,6 @@ export default function TopNav() {
       <header className="hidden md:flex fixed top-0 left-0 w-full h-16 bg-white border-b border-[#E8F0EC]/80 items-center justify-between px-4 md:pl-[240px] md:pr-6 z-30 select-none">
         {/* Left: Breadcrumb / Active Step info */}
         <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => window.dispatchEvent(new Event("toggle_sidebar"))}
-            className="p-1 text-[#1A2E44] hover:bg-slate-100 rounded-lg md:hidden mr-1.5"
-            title="Toggle Menu"
-          >
-            <Menu size={22} />
-          </button>
           <div className="flex items-center gap-2">
             <span className="font-display font-semibold text-xs text-[#6B7C8D] uppercase tracking-wider hidden sm:inline">
               Current Track
@@ -129,9 +136,19 @@ export default function TopNav() {
       {/* Mobile Header: Visible on screens below 768px (md) */}
       <header className="flex flex-col md:hidden fixed top-0 left-0 w-full z-30 select-none bg-white">
         {/* Row 1 (height 48px) */}
-        <div className="h-[48px] px-4 flex items-center justify-between border-b border-[#E8F0EC]/80">
-          {/* Left side: hexagon logo icon </> in navy — no text at all */}
-          <div className="flex items-center">
+        <div className="h-[48px] px-4 flex items-center justify-between border-b border-[#E8F0EC]/80 gap-3">
+          {/* Hamburger Icon */}
+          <button
+            id="mobile-hamburger-btn"
+            onClick={() => setMobileNavOpen((prev) => !prev)}
+            className="p-1 text-[#1A2E44] hover:bg-slate-100 rounded-lg flex-shrink-0"
+            title="Toggle Menu"
+          >
+            <Menu size={22} />
+          </button>
+
+          {/* Hexagon Logo Icon */}
+          <div className="flex items-center flex-shrink-0">
             <svg
               width="28"
               height="28"
@@ -151,8 +168,11 @@ export default function TopNav() {
             </svg>
           </div>
 
+          {/* Spacer */}
+          <div className="flex-grow" />
+
           {/* Right side: bell icon and "Week X of 18" amber badge */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             {/* Bell */}
             <button className="text-[#6B7C8D] hover:text-[#1A2E44] transition-colors p-1 rounded-full hover:bg-[#A8E6CF]/10">
               <Bell size={18} strokeWidth={2.2} />
@@ -191,6 +211,104 @@ export default function TopNav() {
           </div>
         </div>
       </header>
+
+      {/* Mobile Drawer (Step B/C/D) */}
+      <AnimatePresence>
+        {mobileNavOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.4)",
+                zIndex: 998
+              }}
+              onClick={() => setMobileNavOpen(false)}
+            />
+
+            {/* Drawer */}
+            <motion.div
+              key="drawer"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                height: "100vh",
+                width: 280,
+                zIndex: 999,
+                background: "#fff",
+                boxShadow: "4px 0 24px rgba(0,0,0,0.12)"
+              }}
+            >
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between border-b border-[#E8F0EC] p-[20px_20px_16px_20px] bg-white">
+                <Logo fontSize="15px" />
+                <button
+                  id="mobile-drawer-close-btn"
+                  onClick={() => setMobileNavOpen(false)}
+                  className="p-1 text-[#6B7C8D] hover:text-[#1A2E44] transition-colors rounded-lg flex-shrink-0"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav className="flex flex-col py-4">
+                {[
+                  { name: "Dashboard", href: "/", icon: LayoutDashboard },
+                  { name: "Projects", href: "/projects", icon: FolderOpen },
+                  { name: "Interview Prep", href: "/interview", icon: BookMarked },
+                  { name: "My Progress", href: "/progress", icon: TrendingUp }
+                ].map((item) => {
+                  const isActive = pathname === item.href;
+                  const Icon = item.icon;
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setMobileNavOpen(false)}
+                      className={`w-full p-[14px_24px] flex items-center gap-[14px] text-[15px] transition-all ${
+                        isActive
+                          ? "bg-[#F5C842]/15 border-l-[3px] border-[#F5C842] text-[#1A2E44] font-display font-bold"
+                          : "text-[#1A2E44] font-display font-medium hover:bg-black/3 border-l-[3px] border-transparent"
+                      }`}
+                    >
+                      <Icon size={20} className={isActive ? "text-[#1A2E44]" : "text-[#6B7C8D]"} />
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Drawer Footer */}
+              <div className="absolute bottom-0 left-0 w-full border-t border-[#E8F0EC] p-[20px_24px] bg-white flex items-center gap-3">
+                <div className="w-[36px] h-[36px] rounded-full bg-[#F5C842] flex items-center justify-center flex-shrink-0">
+                  <User size={18} className="text-[#1A2E44]" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-display font-semibold text-sm text-[#1A2E44] leading-tight">
+                    You
+                  </span>
+                  <span className="inline-block mt-0.5 px-2 py-0.5 bg-[#F5C842]/20 text-[#E6B800] border border-[#F5C842]/30 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider w-fit">
+                    WEEK {currentWeek} OF 18
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }
