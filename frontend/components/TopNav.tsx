@@ -12,7 +12,8 @@ import {
   FolderOpen,
   BookMarked,
   TrendingUp,
-  User
+  User,
+  BookOpen
 } from "lucide-react";
 import Logo from "./Logo";
 import { getProgress } from "@/lib/progress";
@@ -268,6 +269,7 @@ export default function TopNav() {
                   { name: "Dashboard", href: "/", icon: LayoutDashboard },
                   { name: "Projects", href: "/projects", icon: FolderOpen },
                   { name: "Interview Prep", href: "/interview", icon: BookMarked },
+                  { name: "Tech Literacy", href: "/tech-literacy", icon: BookOpen },
                   { name: "My Progress", href: "/progress", icon: TrendingUp }
                 ].map((item) => {
                   const isActive = pathname === item.href;
