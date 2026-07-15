@@ -9,7 +9,8 @@ import {
   BookmarkCheck,
   TrendingUp,
   User,
-  BookOpen
+  BookOpen,
+  Brain
 } from "lucide-react";
 import Logo from "./Logo";
 import { getProgress } from "@/lib/progress";
@@ -40,6 +41,7 @@ export default function Sidebar() {
     { name: "Projects", href: "/projects", icon: FolderGit2 },
     { name: "Interview Prep", href: "/interview", icon: BookmarkCheck },
     { name: "Tech Literacy", href: "/tech-literacy", icon: BookOpen },
+    { name: "AI Engineering", href: "/ai-engineering", icon: Brain },
     { name: "My Progress", href: "/progress", icon: TrendingUp }
   ];
 
